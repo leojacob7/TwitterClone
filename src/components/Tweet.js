@@ -7,7 +7,7 @@ import {
   TiHeartFullOutline,
   TiArrowDownOutline
 } from "react-icons/ti/index";
-import {handleToggleTweet} from '../actions/tweets'
+import { handleToggleTweet } from "../actions/tweets";
 
 class Tweet extends Component {
   handleLike = e => {
@@ -22,7 +22,7 @@ class Tweet extends Component {
       })
     );
   };
-  
+
   toParent = (e, id) => {
     e.preventDefault();
     // todo: Redirect to parent Tweet.
@@ -84,7 +84,6 @@ class Tweet extends Component {
 function mapStateToProps({ authedUser, users, tweets }, { id }) {
   const tweet = tweets[id];
   const parentTweet = tweet ? tweets[tweet.replyingTo] : null;
-
   return {
     authedUser,
     tweet: tweet
