@@ -1,6 +1,8 @@
-import { saveLikeToggle } from "../utils/api";
+import { saveLikeToggle, saveTweet } from "../utils/api";
+import { showLoading, hideLoading } from "react-redux-loading-bar";
 export const RECEIVE_TWEETS = "RECEIVE_TWEETS";
 export const TOGGLE_TWEET = "TOGGLE_TWEET";
+export const ADD_TWEET = "ADD_TWEET";
 
 export function receiveTweets(tweets) {
   return {
@@ -26,5 +28,31 @@ export function handleToggleTweet(info) {
       console.warn("Error in handleToggleTweet: ", e);
       alert("The was an error liking the tweet. Try again.");
     });
+  };
+}
+
+function addTweet(tweet) {
+  return {
+    type: ADD_TWEET,
+    tweet
+  };
+}
+
+export function handleAddTweet(text, replyingTo) {
+  // @param getState is the actual store
+  return (dispatch, getState) => {
+    const { authedUser } = getState();
+
+    dispatch(showLoading());
+
+    return saveTweet({ text, author: authedUser, replyingTo })
+      .then(tweet => {
+        dispatch(addTweet(tweet));
+      })
+      .then(() => dispatch(hideLoading()))
+      .catch(e => {
+        dispatch(hideLoading())
+        console.log("There was an error adding the tweet", e);
+      });
   };
 }
