@@ -6,5 +6,5 @@ import { combineReducers } from 'redux';
 export default combineReducers({
     tweets: getTweets,
     users: getUsers,
-    authedUser: getUsers
+    authedUser: getAuthedUser
 })
